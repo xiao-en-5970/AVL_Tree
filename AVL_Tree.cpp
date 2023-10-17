@@ -1,11 +1,12 @@
 #include <iostream>
 using namespace std;
 
+//取较大者函数
 int max(int a, int b)
 {
 	return a >= b ? a : b;
 }
-
+//二叉树本树
 typedef struct treenode
 {
 	int Data;
@@ -13,7 +14,7 @@ typedef struct treenode
 	struct treenode* RightChild = nullptr;
 	int Height = 0;
 } Tree, * PTree;
-
+//获取二叉树的高度（NULLPTR取-1以便计算）
 int Get_Height(PTree root)
 {
 	if (root == nullptr)
@@ -25,33 +26,37 @@ int Get_Height(PTree root)
 		return root->Height;
 	}
 }
+//函数声明
+PTree Create_Root(int data);//创建一个数
+PTree Insert_Tree(int data, PTree root);//插入并旋转树
+void Print_Tree_P(PTree root);//先序遍历
+void Print_Tree_M(PTree root);//中序遍历
+void Print_Tree_L(PTree root);//后序遍历
+PTree Single_Rotate_Left(PTree root);//单旋转
+PTree Single_Rotate_Right(PTree root);//单旋转
+PTree Double_Rotate_Left(PTree root);//双旋转
+PTree Double_Rotate_Right(PTree root);//双旋转
+void Print_Tree_Height(PTree root);//打印树各个节点的高度
 
-PTree Create_Root(int data);
-PTree Insert_Tree(int data, PTree root);
-void Print_Tree_P(PTree root);
-void Print_Tree_M(PTree root);
-void Print_Tree_L(PTree root);
-PTree Single_Rotate_Left(PTree root);
-PTree Single_Rotate_Right(PTree root);
-PTree Double_Rotate_Left(PTree root);
-PTree Double_Rotate_Right(PTree root);
-void Print_Tree_Height(PTree root);
-
+//感受：重点在于insert和旋转操作需要有返回值！！！不然在函数内部无法改变其地址，
 
 int main()
 {
+	//创建一个AVL二叉树，并插入2，1，3，5，4
+	//在插入的途中通过单旋转和双旋转来保持AVL树的特性
 	PTree root = Create_Root(2);
 	root = Insert_Tree(1, root);
 	root = Insert_Tree(3, root);
 	root = Insert_Tree(5, root);
-	
 	root = Insert_Tree(4, root);
-	Print_Tree_P(root);
+	Print_Tree_P(root);//先序遍历检查旋转是否成功（显然成功了才放出源码）
 	cout << endl;
-	Print_Tree_Height(root);
+	Print_Tree_Height(root);//打印树各个节点的高度第二次验证
 	return 0;
 }
 
+
+//以下都是函数具体实现
 PTree Create_Root(int data)
 {
 	PTree root = new Tree;
